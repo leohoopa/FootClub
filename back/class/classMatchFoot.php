@@ -3,10 +3,10 @@ class MatchFoot {
 
     private int $teamScore;
     private int $opponentScore;
-    private datetime $date;
+    private DateTime $date;
     private string $city;
 
-    public function __construct(int $teamScore, int $opponentScore, datetime $date, string $city) {
+    public function __construct(int $teamScore, int $opponentScore, DateTime $date, string $city) {
         $this->teamScore = $teamScore;
         $this->opponentScore = $opponentScore;
         $this->date = $date;
@@ -19,7 +19,7 @@ class MatchFoot {
     public function getOpponentScore() : string {
         return $this->opponentScore;
     }
-    public function getDate() : datetime {
+    public function getDate() : DateTime {
         $this->date;
     }
     public function getCity() : string {
@@ -34,7 +34,7 @@ class MatchFoot {
         $this->opponentScore = $opponentScore;
     }
 
-    public function setDate(datetime $date) : void {
+    public function setDate(DateTime $date) : void {
         $this->date = $date;
     }
 
