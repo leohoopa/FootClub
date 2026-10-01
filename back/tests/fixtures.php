@@ -38,21 +38,11 @@ function createTeams(): array
 function createOpposingClubs(): array
 {
     return [
-        new OpposingClub(
-            new Address('10', 'Rue du Stade', '59000', 'Lille')
-        ),
-        new OpposingClub(
-            new Address('15', 'Avenue Foch', '69000', 'Lyon')
-        ),
-        new OpposingClub(
-            new Address('8', 'Boulevard des Sports', '13000', 'Marseille')
-        ),
-        new OpposingClub(
-            new Address('22', 'Rue de la République', '33000', 'Bordeaux')
-        ),
-        new OpposingClub(
-            new Address('5', 'Route de Paris', '44000', 'Nantes')
-        ),
+        new OpposingClub('10', 'Rue du Stade', '59000', 'Lille'),
+        new OpposingClub('5', 'Avenue de Lyon', '69000', 'Lyon'),
+        new OpposingClub('20', 'Boulevard de Marseille', '13000', 'Marseille'),
+        new OpposingClub('15', 'Rue de Bordeaux', '33000', 'Bordeaux'),
+        new OpposingClub('8', 'Place de Nantes', '44000', 'Nantes'),
     ];
 }
 
