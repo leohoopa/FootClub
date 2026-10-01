@@ -4,7 +4,6 @@ require_once __DIR__ . '/classTeam.php';
 require_once __DIR__ . '/classOpposingClub.php';
 require_once __DIR__ . '/classPlayerHasTeam.php';
 require_once __DIR__ . '/classMatchFoot.php';
-require_once __DIR__ . '/classAddress.php';
 
 // 1. Création des joueurs 
 function createPlayers(): array
