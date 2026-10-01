@@ -20,7 +20,7 @@ class MatchFoot {
         return $this->opponentScore;
     }
     public function getDate() : DateTime {
-        $this->date;
+        return $this->date;
     }
     public function getCity() : string {
         return $this->city;

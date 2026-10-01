@@ -7,12 +7,12 @@ class Team {
         $this->name = $name;
     }
 
-    public function getNom() : string {
-        return $this->nom;
+    public function getName() : string {
+        return $this->name;
     }
 
-    public function setNom(string $nom) : void {
-        $this->name = $nom;
+    public function setName(string $name) : void {
+        $this->name = $name;
     }
 }
 ?>
