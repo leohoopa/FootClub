@@ -59,10 +59,11 @@ function createStaffMembers(): array
 // 5. Création des liaisons. Un joueur reçoit une équipe et un rôle
 function createPlayerHasTeams(array $players, array $teams): array
 {
-    if ($roles != [PlayerHasTeam::ROLE_ATTACK, PlayerHasTeam::ROLE_MIDFIELDER, PlayerHasTeam::ROLE_DEFENDER, PlayerHasTeam::ROLE_GOALKEEPER]) {
-        exit("Erreur : Les rôles ne sont pas correctement définis dans la classe PlayerHasTeam.");
-    } else {
-        $roles = [PlayerHasTeam::ROLE_ATTACK, PlayerHasTeam::ROLE_MIDFIELDER, PlayerHasTeam::ROLE_DEFENDER, PlayerHasTeam::ROLE_GOALKEEPER];
+    $roles = ['Attaquant', 'Milieu', 'Défenseur', 'Gardien'];
+
+    if ($roles !== [PlayerHasTeam::ROLE_ATTACK, PlayerHasTeam::ROLE_MIDFIELDER, PlayerHasTeam::ROLE_DEFENDER, PlayerHasTeam::ROLE_GOALKEEPER]) {
+        exit("Erreur : Les rôles ne sont pas correctement définis.");
+    } else {        
         $links = [];
 
         foreach ($players as $index => $player) {
