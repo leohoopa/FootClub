@@ -7,10 +7,6 @@ class PlayerHasTeam {
     private string $role;
     private Player $player;
     private Team $team;
-    CONST ROLE_ATTACK = "Attaquant";
-    CONST ROLE_MIDFIELDER = "Milieu";
-    CONST ROLE_DEFENDER = "Défenseur";
-    CONST ROLE_GOALKEEPER = "Gardien";
 
     public function __construct(string $role,Player $player, Team $team) {
         $this->role = $role;

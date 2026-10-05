@@ -5,6 +5,7 @@ require_once __DIR__ . '/classTeam.php';
 require_once __DIR__ . '/classOpposingClub.php';
 require_once __DIR__ . '/classPlayerHasTeam.php';
 require_once __DIR__ . '/classMatchFoot.php';
+require_once __DIR__ . '/enum/Roles.php';
 
 // 1. Création des joueurs 
 function createPlayers(): array
@@ -61,8 +62,7 @@ function createPlayerHasTeams(array $players, array $teams): array
 {
     $roles = ['Attaquant', 'Milieu', 'Défenseur', 'Gardien'];
 
-    if ($roles !== [PlayerHasTeam::ROLE_ATTACK, PlayerHasTeam::ROLE_MIDFIELDER, PlayerHasTeam::ROLE_DEFENDER,
-    PlayerHasTeam::ROLE_GOALKEEPER]) {
+    if ($roles !== [Roles::ATTACK->value, Roles::MIDFIELDER->value, Roles::DEFENDER->value, Roles::GOALKEEPER->value]) {
         exit("Erreur : Les rôles ne sont pas correctement définis.");
     } else {        
         $links = [];
