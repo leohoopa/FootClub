@@ -32,36 +32,6 @@ abstract class Member {
     }
 }
 
-final class Player extends Member {
-    private DateTime $birthdate;
 
-    public function __construct(string $firstname, string $lastname, string $picture, DateTime $birthdate) {
-        parent::__construct($firstname, $lastname, $picture);
-        $this->birthdate = $birthdate;
-    }
 
-    public function getBirthdate(): DateTime {
-        return $this->birthdate;
-    }
 
-    public function setBirthdate(DateTime $birthdate): void {
-        $this->birthdate = $birthdate;
-    }
-}
-
-final class StaffMember extends Member {
-    private string $role;
-
-    public function __construct(string $firstname, string $lastname, string $picture, string $role) {
-        parent::__construct($firstname, $lastname, $picture);
-        $this->role = $role;
-    }
-
-    public function getRole(): string {
-        return $this->role;
-    }
-
-    public function setRole(string $role): void {
-        $this->role = $role;
-    }
-}

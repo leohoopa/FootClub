@@ -6,12 +6,16 @@ class MatchFoot {
     private int $opponentScore;
     private DateTime $date;
     private string $city;
+    private Team $team;
+    private OpposingClub $opposingClub;
 
-    public function __construct(int $teamScore, int $opponentScore, DateTime $date, string $city) {
+    public function __construct(int $teamScore, int $opponentScore, DateTime $date, string $city, Team $team, OpposingClub $opposingClub) {
         $this->teamScore = $teamScore;
         $this->opponentScore = $opponentScore;
         $this->date = $date;
         $this->city = $city;
+        $this->team = $team;
+        $this->opposingClub = $opposingClub;
     }
 
     public function getTeamScore() : string {
@@ -25,6 +29,12 @@ class MatchFoot {
     }
     public function getCity() : string {
         return $this->city;
+    }
+    public function getTeam() : Team {
+        return $this->team;
+    }
+    public function getOpposingClub() : OpposingClub {
+        return $this->opposingClub;
     }
 
     public function setTeamScore(int $teamScore) : void {
@@ -41,6 +51,12 @@ class MatchFoot {
 
     public function setCity(string $city) : void {
         $this->city = $city;
+    }
+    public function setTeam(Team $team) : void {
+        $this->team = $team;
+    }
+    public function setOpposingClub(OpposingClub $opposingClub) : void {
+        $this->opposingClub = $opposingClub;
     }
 }
 ?>

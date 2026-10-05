@@ -73,7 +73,7 @@ function createPlayerHasTeams(array $players, array $teams): array
 }
 
 // 6. Création des matchs
-function createMatches(array $teams, array $opposingClubs): array
+function createMatches(array $team, array $opposingClub): array
 {
     $matchesData = [
         [3, 1, '2026-01-15', 'Lille'],
