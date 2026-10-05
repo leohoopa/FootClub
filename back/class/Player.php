@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/Member.php';
+
 final class Player extends Member {
     private DateTime $birthdate;
 
