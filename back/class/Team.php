@@ -1,4 +1,5 @@
 <?php
+
 class Team {
 
     private string $name;

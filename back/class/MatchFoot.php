@@ -1,4 +1,5 @@
 <?php
+
 class MatchFoot {
 
     private int $teamScore;

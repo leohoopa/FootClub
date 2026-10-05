@@ -1,4 +1,5 @@
 <?php
+
 abstract class Member {
     protected string $firstname;
     protected string $lastname;

@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/classMember.php';
 require_once __DIR__ . '/classTeam.php';
 require_once __DIR__ . '/classOpposingClub.php';
@@ -31,8 +32,6 @@ function createTeams(): array
 }
 
 // 3. Création des clubs adverses 
-// Syntaxe : new Address('Numéro', 'Rue', 'Code Postal', 'Ville')
-// Syntaxe OpposingClub : new OpposingClub($objetAddress)
 
 function createOpposingClubs(): array
 {
@@ -49,11 +48,11 @@ function createOpposingClubs(): array
 function createStaffMembers(): array
 {
     return [
-        new StaffMember('Didier', 'Deschamps', 'deschamps.png', 'Entraîneur'),
-        new StaffMember('Guy', 'Stéphan', 'stephan.png', 'Préparateur'),
-        new StaffMember('Franck', 'Raviot', 'raviot.png', 'Entraîneur gardiens'),
-        new StaffMember('Cyril', 'Moine', 'moine.png', 'Préparateur physique'),
-        new StaffMember('Alexandre', 'Kylian', 'kylian.png', 'Analyste'),
+        new Staff('Didier', 'Deschamps', 'deschamps.png', 'Entraîneur'),
+        new Staff('Guy', 'Stéphan', 'stephan.png', 'Préparateur'),
+        new Staff('Franck', 'Raviot', 'raviot.png', 'Entraîneur gardiens'),
+        new Staff('Cyril', 'Moine', 'moine.png', 'Préparateur physique'),
+        new Staff('Alexandre', 'Kylian', 'kylian.png', 'Analyste'),
     ];
 }
 
@@ -67,7 +66,6 @@ function createPlayerHasTeams(array $players, array $teams): array
         $team = $teams[$index % count($teams)];
         $role = $roles[$index % count($roles)];
         
-        // On passe directement les objets $player et $team instanciés
         $links[] = new PlayerHasTeam($role, $player, $team);
     }
 
@@ -103,7 +101,7 @@ function createMatches(array $teams, array $opposingClubs): array
     return $matches;
 }
 
-// --- EXÉCUTION DU JEU D'ESSAIS ---
+// EXECUTION DU JEU D'ESSAIS
 
 $players = createPlayers();
 $teams = createTeams();
@@ -112,7 +110,7 @@ $staffMembers = createStaffMembers();
 $playerHasTeams = createPlayerHasTeams($players, $teams);
 $matches = createMatches($teams, $opposingClubs);
 
-echo "=== BILAN DES FIXTURES ===" . PHP_EOL;
+echo "BILAN DES FIXTURES" . PHP_EOL;
 echo "Joueurs créés : " . count($players) . PHP_EOL;
 echo "Équipes créées : " . count($teams) . PHP_EOL;
 echo "Clubs adverses créés : " . count($opposingClubs) . PHP_EOL;
