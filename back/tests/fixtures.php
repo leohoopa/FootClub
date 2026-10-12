@@ -1,12 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../class/Player.php';
-require_once __DIR__ . '/../class/Team.php';
-require_once __DIR__ . '/../class/OpposingClub.php';
-require_once __DIR__ . '/../class/Staff.php';
-require_once __DIR__ . '/../class/PlayerHasTeam.php';
-require_once __DIR__ . '/../class/MatchFoot.php';
-require_once __DIR__ . '/../class/db/PlayerData.php';
+require_once __DIR__ . '/classMember.php';
+require_once __DIR__ . '/classTeam.php';
+require_once __DIR__ . '/classOpposingClub.php';
+require_once __DIR__ . '/classPlayerHasTeam.php';
+require_once __DIR__ . '/classMatchFoot.php';
 
 // 1. Création des joueurs 
 function createPlayers(): array
@@ -61,17 +59,23 @@ function createStaffMembers(): array
 // 5. Création des liaisons. Un joueur reçoit une équipe et un rôle
 function createPlayerHasTeams(array $players, array $teams): array
 {
-    $roles = ['attaquant', 'milieu', 'Défenseur', 'Gardien'];
-    $links = [];
+    $roles = ['Attaquant', 'Milieu', 'Défenseur', 'Gardien'];
 
-    foreach ($players as $index => $player) {
-        $team = $teams[$index % count($teams)];
-        $role = $roles[$index % count($roles)];
+    if ($roles !== [Roles::ATTACK->value, Roles::MIDFIELDER->value, Roles::DEFENDER->value, Roles::GOALKEEPER->value]) {
+        exit("Erreur : Les rôles ne sont pas correctement définis.");
+    } else {        
+        $links = [];
+
+        foreach ($players as $index => $player) {
+            $team = $teams[$index % count($teams)];
+            $role = $roles[$index % count($roles)];
         
         $links[] = new PlayerHasTeam($role, $player, $team);
     }
 
-    return $links;
+        return $links;
+    }
+    
 }
 
 // 6. Création des matchs
