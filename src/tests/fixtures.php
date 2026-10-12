@@ -5,7 +5,6 @@ require_once __DIR__ . '/Team.php';
 require_once __DIR__ . '/OpposingClub.php';
 require_once __DIR__ . '/PlayerHasTeam.php';
 require_once __DIR__ . '/MatchFoot.php';
-require_once __DIR__ . '/../Roles.php'
 
 // 1. Création des joueurs 
 function createPlayers(): array
@@ -80,7 +79,7 @@ function createPlayerHasTeams(array $players, array $teams): array
 }
 
 // 6. Création des matchs
-function createMatches(array $team, array $opposingClub): array
+function createMatches(array $teams, array $opposingClubs): array
 {
     $matchesData = [
         [3, 1, '2026-01-15', 'Lille'],
