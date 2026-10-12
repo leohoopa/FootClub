@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '/classMember.php';
-require_once __DIR__ . '/classTeam.php';
-require_once __DIR__ . '/classOpposingClub.php';
-require_once __DIR__ . '/classPlayerHasTeam.php';
-require_once __DIR__ . '/classMatchFoot.php';
+require_once __DIR__ . '/Member.php';
+require_once __DIR__ . '/Team.php';
+require_once __DIR__ . '/OpposingClub.php';
+require_once __DIR__ . '/PlayerHasTeam.php';
+require_once __DIR__ . '/MatchFoot.php';
 
 // 1. Création des joueurs 
 function createPlayers(): array
