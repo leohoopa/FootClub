@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/.env';
+
 class Database
 {
     private static ?Database $instance = null;
@@ -7,10 +9,6 @@ class Database
 
     private function __construct()
     {
-        $host = 'localhost';
-        $dbname = 'footclub';
-        $user = 'root';
-        $password = '';
         $charset = 'utf8mb4';
 
         $dsn = "mysql:host={$host};dbname={$dbname};charset={$charset}";
