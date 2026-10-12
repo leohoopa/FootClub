@@ -4,7 +4,7 @@ require_once __DIR__ . '/Database.php';
 
 class TeamDataBase
 {
-    function getAllTeams(): array
+    function static getAllTeams(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query('SELECT id, name FROM team ORDER BY name');

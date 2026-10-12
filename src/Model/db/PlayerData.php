@@ -4,7 +4,7 @@ require_once __DIR__ . '/Database.php';
 
 class PlayerData
 {
-    function getAllPlayers(): array
+    function static getAllPlayers(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query(

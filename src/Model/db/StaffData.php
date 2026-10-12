@@ -4,7 +4,7 @@ require_once __DIR__ . '/Database.php';
 
 class StaffData
 {
-    function getAllStaff(): array
+    function static getAllStaff(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query(

@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../class/db/PlayerData.php';
+require_once __DIR__ . '/../PlayerData.php';
 
 // Test DataBase
 

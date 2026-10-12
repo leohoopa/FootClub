@@ -4,7 +4,7 @@ require_once __DIR__ . '/Database.php';
 
 class MatchDataFoot
 {
-    function getAllMatches(): array
+    function static getAllMatches(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query(

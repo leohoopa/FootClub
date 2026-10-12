@@ -4,7 +4,7 @@ require_once __DIR__ . '/Database.php';
 
 class OpposingClubData
 {
-    function getAllOpposingClubs(): array
+    function static getAllOpposingClubs(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query(
