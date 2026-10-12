@@ -4,7 +4,7 @@ require_once __DIR__ . '/Database.php';
 
 class MatchDataFoot
 {
-    function static getAllMatches(): array
+    static public function getAllMatches(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query(
@@ -15,7 +15,7 @@ class MatchDataFoot
         return $statement->fetchAll();
     }
 
-    function insertMatch(
+    static public function insertMatch(
         int $teamScore,
         int $opponentScore,
         DateTimeInterface $matchDate,

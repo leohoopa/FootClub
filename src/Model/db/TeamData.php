@@ -2,9 +2,9 @@
 
 require_once __DIR__ . '/Database.php';
 
-class TeamDataBase
+class TeamData
 {
-    function static getAllTeams(): array
+    static public function getAllTeams(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query('SELECT id, name FROM team ORDER BY name');
@@ -12,7 +12,7 @@ class TeamDataBase
         return $statement->fetchAll();
     }
 
-    function getTeam(int $id): ?array
+    static public function getTeam(int $id): ?array
     {
         try {
             $pdo = Database::getInstance()->getConnection();
@@ -33,7 +33,7 @@ class TeamDataBase
         }
     }
 
-    function insertTeam(string $name): int
+    static public function insertTeam(string $name): int
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->prepare('INSERT INTO team (name) VALUES (:name)');
