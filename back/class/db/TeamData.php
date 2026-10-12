@@ -12,6 +12,27 @@ class TeamDataBase
         return $statement->fetchAll();
     }
 
+    function getTeam(int $id): ?array
+    {
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $statement = $pdo->prepare(
+                'SELECT id, name FROM team WHERE id = :id LIMIT 1'
+            );
+            $statement->execute(['id' => $id]);
+            $team = $statement->fetch();
+            
+
+            return $team === false ? null : $team;
+        } catch (PDOException $e) {
+            throw new RuntimeException(
+                "Erreur lors de la récupération de l'équipe.",
+                0,
+                $e
+            );
+        }
+    }
+
     function insertTeam(string $name): int
     {
         $pdo = Database::getInstance()->getConnection();

@@ -5,17 +5,42 @@ require_once __DIR__ . '/Database.php';
 class StaffData
 {
     function getAllStaff(): array
-{
-    $pdo = Database::getInstance()->getConnection();
-    $statement = $pdo->query(
-        'SELECT member.id, member.firstname, member.lastname, member.picture, staff.role '
-        . 'FROM staff '
-        . 'INNER JOIN member ON member.id = staff.member_id '
-        . 'ORDER BY member.lastname, member.firstname'
-    );
+    {
+        $pdo = Database::getInstance()->getConnection();
+        $statement = $pdo->query(
+            'SELECT member.id, member.firstname, member.lastname, member.picture, staff.role '
+            . 'FROM staff '
+            . 'INNER JOIN member ON member.id = staff.member_id '
+            . 'ORDER BY member.lastname, member.firstname'
+        );
 
-    return $statement->fetchAll();
-}
+        return $statement->fetchAll();
+    }
+
+    function getStaff(int $id): ?array
+    {
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $statement = $pdo->prepare(
+                'SELECT member.id, member.firstname, member.lastname, member.picture, staff.role '
+                . 'FROM staff '
+                . 'INNER JOIN member ON member.id = staff.member_id '
+                . 'WHERE member.id = :id '
+                . 'LIMIT 1'
+            );
+
+            $statement->execute(['id' => $id]);
+            $staff = $statement->fetch();
+
+            return $staff === false ? null : $staff;
+        } catch (PDOException $e) {
+            throw new RuntimeException(
+                "Erreur lors de la récupération du staff.",
+                0,
+                $e
+            );
+        }
+    }
 
     function insertStaff(string $firstname, string $lastname, string $picture, string $role): int
     {

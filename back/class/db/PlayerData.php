@@ -17,6 +17,31 @@ class PlayerData
         return $statement->fetchAll();
     }
 
+    function getPlayer(int $id): ?array
+    {
+        try {
+            $pdo = Database::getInstance()->getConnection();
+            $statement = $pdo->prepare(
+                'SELECT member.id, member.firstname, member.lastname, member.picture, player.birthdate '
+                . 'FROM player '
+                . 'INNER JOIN member ON member.id = player.member_id '
+                . 'WHERE member.id = :id '
+                . 'LIMIT 1'
+            );
+
+            $statement->execute(['id' => $id]);
+            $player = $statement->fetch();
+
+            return $player === false ? null : $player;
+        } catch (PDOException $e) {
+            throw new RuntimeException(
+                "Erreur lors de la récupération du joueur.",
+                0,
+                $e
+            );
+        }
+    }
+
     function insertPlayer(
         string $firstname,
         string $lastname,
