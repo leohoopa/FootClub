@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/classMember.php';
-require_once __DIR__ . '/classTeam.php';
+require_once __DIR__ . '/Player.php';
+require_once __DIR__ . '/Team.php';
 
 class PlayerHasTeam {
     private string $role;
