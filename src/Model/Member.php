@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Model;
+
 abstract class Member {
     protected string $firstname;
     protected string $lastname;

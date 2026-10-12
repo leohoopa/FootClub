@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Model;
+
 class MatchFoot {
 
     private int $teamScore;

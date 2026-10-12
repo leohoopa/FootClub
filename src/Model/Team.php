@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Model;
+
 class Team {
 
     private string $name;

@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Model;
+
 require_once __DIR__ . '/Member.php';
 
 final class Player extends Member {
