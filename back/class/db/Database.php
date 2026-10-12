@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../../../.env';
-
 class Database
 {
     private static ?Database $instance = null;
@@ -9,8 +7,8 @@ class Database
 
     private function __construct()
     {
+        require_once __DIR__ . '/../../../.env';
         $charset = 'utf8mb4';
-
         $dsn = "mysql:host={$host};dbname={$dbname};charset={$charset}";
 
         $options = [
