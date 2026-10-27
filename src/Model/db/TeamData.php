@@ -1,6 +1,9 @@
 <?php
 
-require_once __DIR__ . '/Database.php';
+namespace App\Model\db;
+
+use PDOException;
+use RuntimeException;
 
 class TeamData
 {

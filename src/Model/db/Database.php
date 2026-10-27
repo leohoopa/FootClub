@@ -1,5 +1,12 @@
 <?php
 
+namespace App\Model\db;
+
+use PDO;
+use PDOException;
+
+require_once __DIR__ . '/../../../.env';
+
 class Database
 {
     private static ?Database $instance = null;

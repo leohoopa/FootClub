@@ -2,7 +2,7 @@
 
 namespace App\Model;
 
-require_once __DIR__ . '/Member.php';
+use DateTime;
 
 final class Player extends Member {
     private DateTime $birthdate;

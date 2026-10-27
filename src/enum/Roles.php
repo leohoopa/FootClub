@@ -1,5 +1,7 @@
 <?php
 
+namespace App\enum;
+
 enum Roles: string
 {
     case ATTACK = "Attaquant";
@@ -7,4 +9,3 @@ enum Roles: string
     case DEFENDER = "Défenseur";
     case GOALKEEPER = "Gardien";
 }
-

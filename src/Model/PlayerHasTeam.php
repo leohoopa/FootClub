@@ -2,9 +2,6 @@
 
 namespace App\Model;
 
-require_once __DIR__ . '/Player.php';
-require_once __DIR__ . '/Team.php';
-
 class PlayerHasTeam {
     private string $role;
     private Player $player;

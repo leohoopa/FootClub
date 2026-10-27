@@ -1,6 +1,14 @@
 <?php
 
-require 'autoloader\autoloader.php';
+use App\enum\Roles;
+use App\Model\MatchFoot;
+use App\Model\OpposingClub;
+use App\Model\Player;
+use App\Model\PlayerHasTeam;
+use App\Model\Staff;
+use App\Model\Team;
+
+require_once __DIR__ . '/../../autoloader.php';
 
 // 1. Création des joueurs 
 function createPlayers(): array

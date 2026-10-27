@@ -1,6 +1,11 @@
 <?php
 
-require_once __DIR__ . '/Database.php';
+namespace App\Model\db;
+
+use DateTimeInterface;
+use PDOException;
+use RuntimeException;
+use Throwable;
 
 class PlayerData
 {

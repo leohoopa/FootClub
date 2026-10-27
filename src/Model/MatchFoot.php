@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use DateTime;
+
 class MatchFoot {
 
     private int $teamScore;
