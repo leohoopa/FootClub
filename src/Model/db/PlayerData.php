@@ -2,13 +2,15 @@
 
 namespace App\Model\db;
 
-use DateTimeInterface;
+use App\Model\Player;
+use DateTime;
 use PDOException;
 use RuntimeException;
 use Throwable;
 
 class PlayerData
 {
+    /** @return Player[] */
     static public function getAllPlayers(): array
     {
         $pdo = Database::getInstance()->getConnection();
@@ -19,10 +21,13 @@ class PlayerData
             . 'ORDER BY member.lastname, member.firstname'
         );
 
-        return $statement->fetchAll();
+        return array_map(
+            static fn (array $row): Player => self::hydratePlayer($row),
+            $statement->fetchAll()
+        );
     }
 
-    static public function getPlayer(int $id): ?array
+    static public function getPlayer(int $id): ?Player
     {
         try {
             $pdo = Database::getInstance()->getConnection();
@@ -35,9 +40,9 @@ class PlayerData
             );
 
             $statement->execute(['id' => $id]);
-            $player = $statement->fetch();
+            $row = $statement->fetch();
 
-            return $player === false ? null : $player;
+            return $row === false ? null : self::hydratePlayer($row);
         } catch (PDOException $e) {
             throw new RuntimeException(
                 "Erreur lors de la récupération du joueur.",
@@ -47,12 +52,7 @@ class PlayerData
         }
     }
 
-    static public function insertPlayer(
-        string $firstname,
-        string $lastname,
-        string $picture,
-        DateTimeInterface $birthdate
-    ): int
+    static public function insertPlayer(Player $player): int
     {
         $pdo = Database::getInstance()->getConnection();
         $pdo->beginTransaction();
@@ -63,9 +63,9 @@ class PlayerData
                 . 'VALUES (:firstname, :lastname, :picture)'
             );
             $statement->execute([
-                'firstname' => $firstname,
-                'lastname' => $lastname,
-                'picture' => $picture,
+                'firstname' => $player->getFirstname(),
+                'lastname' => $player->getLastname(),
+                'picture' => $player->getPicture(),
             ]);
             $playerId = (int) $pdo->lastInsertId();
 
@@ -74,14 +74,71 @@ class PlayerData
             );
             $statement->execute([
                 'member_id' => $playerId,
-                'birthdate' => $birthdate->format('Y-m-d'),
+                'birthdate' => $player->getBirthdate()->format('Y-m-d'),
             ]);
 
             $pdo->commit();
+            $player->setId($playerId);
             return $playerId;
         } catch (Throwable $exception) {
-            $pdo->rollBack();
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
             throw $exception;
         }
+    }
+
+    static public function updatePlayer(int $id, Player $player): void
+    {
+        $pdo = Database::getInstance()->getConnection();
+        $pdo->beginTransaction();
+
+        try {
+            $statement = $pdo->prepare(
+                'SELECT member_id FROM player WHERE member_id = :id FOR UPDATE'
+            );
+            $statement->execute(['id' => $id]);
+            if ($statement->fetchColumn() === false) {
+                throw new RuntimeException('Le joueur à modifier est introuvable.');
+            }
+
+            $statement = $pdo->prepare(
+                'UPDATE member SET firstname = :firstname, lastname = :lastname, picture = :picture '
+                . 'WHERE id = :id'
+            );
+            $statement->execute([
+                'firstname' => $player->getFirstname(),
+                'lastname' => $player->getLastname(),
+                'picture' => $player->getPicture(),
+                'id' => $id,
+            ]);
+
+            $statement = $pdo->prepare(
+                'UPDATE player SET birthdate = :birthdate WHERE member_id = :id'
+            );
+            $statement->execute([
+                'birthdate' => $player->getBirthdate()->format('Y-m-d'),
+                'id' => $id,
+            ]);
+
+            $pdo->commit();
+        } catch (Throwable $exception) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            throw $exception;
+        }
+    }
+
+    /** @param array<string, mixed> $row */
+    private static function hydratePlayer(array $row): Player
+    {
+        return new Player(
+            (string) $row['firstname'],
+            (string) $row['lastname'],
+            (string) $row['picture'],
+            new DateTime((string) $row['birthdate']),
+            (int) $row['id']
+        );
     }
 }
