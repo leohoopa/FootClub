@@ -4,7 +4,7 @@ namespace App\Model\db;
 
 class PlayerHasTeamData
 {
-    static public function getAllPlayerHasTeams(): array
+    public static function getAllPlayerHasTeams(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query(
@@ -14,7 +14,7 @@ class PlayerHasTeamData
         return $statement->fetchAll();
     }
 
-    static public function insertPlayerHasTeam(int $playerId, int $teamId, string $role): int
+    public static function insertPlayerHasTeam(int $playerId, int $teamId, string $role): int
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->prepare(

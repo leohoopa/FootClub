@@ -11,7 +11,7 @@ use Throwable;
 class PlayerData
 {
     /** @return Player[] */
-    static public function getAllPlayers(): array
+    public static function getAllPlayers(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query(
@@ -27,7 +27,7 @@ class PlayerData
         );
     }
 
-    static public function getPlayer(int $id): ?Player
+    public static function getPlayer(int $id): ?Player
     {
         try {
             $pdo = Database::getInstance()->getConnection();
@@ -45,14 +45,14 @@ class PlayerData
             return $row === false ? null : self::hydratePlayer($row);
         } catch (PDOException $e) {
             throw new RuntimeException(
-                "Erreur lors de la récupération du joueur.",
+                'Erreur lors de la récupération du joueur.',
                 0,
                 $e
             );
         }
     }
 
-    static public function insertPlayer(Player $player): int
+    public static function insertPlayer(Player $player): int
     {
         $pdo = Database::getInstance()->getConnection();
         $pdo->beginTransaction();
@@ -88,7 +88,7 @@ class PlayerData
         }
     }
 
-    static public function updatePlayer(int $id, Player $player): void
+    public static function updatePlayer(int $id, Player $player): void
     {
         $pdo = Database::getInstance()->getConnection();
         $pdo->beginTransaction();

@@ -4,8 +4,8 @@ namespace App\Model;
 
 use DateTime;
 
-class MatchFoot {
-
+class MatchFoot
+{
     private int $teamScore;
     private int $opponentScore;
     private DateTime $date;
@@ -13,7 +13,15 @@ class MatchFoot {
     private Team $team;
     private OpposingClub $opposingClub;
 
-    public function __construct(int $teamScore, int $opponentScore, DateTime $date, string $city, Team $team, OpposingClub $opposingClub) {
+    public function __construct(
+        int $teamScore,
+        int $opponentScore,
+        DateTime $date,
+        string $city,
+        Team $team,
+        OpposingClub $opposingClub
+    )
+    {
         $this->teamScore = $teamScore;
         $this->opponentScore = $opponentScore;
         $this->date = $date;
@@ -22,45 +30,56 @@ class MatchFoot {
         $this->opposingClub = $opposingClub;
     }
 
-    public function getTeamScore() : string {
+    public function getTeamScore(): string
+    {
         return $this->teamScore;
     }
-    public function getOpponentScore() : string {
+    public function getOpponentScore(): string
+    {
         return $this->opponentScore;
     }
-    public function getDate() : DateTime {
+    public function getDate(): DateTime
+    {
         return $this->date;
     }
-    public function getCity() : string {
+    public function getCity(): string
+    {
         return $this->city;
     }
-    public function getTeam() : Team {
+    public function getTeam(): Team
+    {
         return $this->team;
     }
-    public function getOpposingClub() : OpposingClub {
+    public function getOpposingClub(): OpposingClub
+    {
         return $this->opposingClub;
     }
 
-    public function setTeamScore(int $teamScore) : void {
+    public function setTeamScore(int $teamScore): void
+    {
         $this->teamScore = $teamScore;
     }
 
-    public function setOpponentScore(int $opponentScore) : void {
+    public function setOpponentScore(int $opponentScore): void
+    {
         $this->opponentScore = $opponentScore;
     }
 
-    public function setDate(DateTime $date) : void {
+    public function setDate(DateTime $date): void
+    {
         $this->date = $date;
     }
 
-    public function setCity(string $city) : void {
+    public function setCity(string $city): void
+    {
         $this->city = $city;
     }
-    public function setTeam(Team $team) : void {
+    public function setTeam(Team $team): void
+    {
         $this->team = $team;
     }
-    public function setOpposingClub(OpposingClub $opposingClub) : void {
+    public function setOpposingClub(OpposingClub $opposingClub): void
+    {
         $this->opposingClub = $opposingClub;
     }
 }
-?>

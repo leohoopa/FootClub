@@ -105,5 +105,4 @@ class PlayerController
 
         return ['errors' => $errors, 'values' => $values];
     }
-
 }

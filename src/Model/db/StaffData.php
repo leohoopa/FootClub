@@ -8,7 +8,7 @@ use Throwable;
 
 class StaffData
 {
-    static public function getAllStaff(): array
+    public static function getAllStaff(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query(
@@ -21,7 +21,7 @@ class StaffData
         return $statement->fetchAll();
     }
 
-    static public function getStaff(int $id): ?array
+    public static function getStaff(int $id): ?array
     {
         try {
             $pdo = Database::getInstance()->getConnection();
@@ -39,14 +39,19 @@ class StaffData
             return $staff === false ? null : $staff;
         } catch (PDOException $e) {
             throw new RuntimeException(
-                "Erreur lors de la récupération du staff.",
+                'Erreur lors de la récupération du staff.',
                 0,
                 $e
             );
         }
     }
 
-    static public function insertStaff(string $firstname, string $lastname, string $picture, string $role): int
+    public static function insertStaff(
+        string $firstname,
+        string $lastname,
+        string $picture,
+        string $role
+    ): int
     {
         $pdo = Database::getInstance()->getConnection();
         $pdo->beginTransaction();

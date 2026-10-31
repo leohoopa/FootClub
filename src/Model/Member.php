@@ -2,38 +2,42 @@
 
 namespace App\Model;
 
-abstract class Member {
+abstract class Member
+{
     protected string $firstname;
     protected string $lastname;
     protected string $picture;
 
-    public function __construct(string $firstname, string $lastname, string $picture) {
+    public function __construct(string $firstname, string $lastname, string $picture)
+    {
         $this->firstname = $firstname;
         $this->lastname = $lastname;
         $this->picture = $picture;
     }
 
-    public function getFirstname(): string {
+    public function getFirstname(): string
+    {
         return $this->firstname;
     }
-    public function getLastname(): string {
+    public function getLastname(): string
+    {
         return $this->lastname;
     }
-    public function getPicture(): string {
+    public function getPicture(): string
+    {
         return $this->picture;
     }
 
-    public function setFirstname(string $firstname): void {
+    public function setFirstname(string $firstname): void
+    {
         $this->firstname = $firstname;
     }
-    public function setLastname(string $lastname): void {
+    public function setLastname(string $lastname): void
+    {
         $this->lastname = $lastname;
     }
-    public function setPicture(string $picture): void {
+    public function setPicture(string $picture): void
+    {
         $this->picture = $picture;
     }
 }
-
-
-
-

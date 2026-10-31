@@ -43,5 +43,7 @@ class Database
         return $this->pdo;
     }
 
-    private function __clone() {}
+    private function __clone()
+    {
+    }
 }

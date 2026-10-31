@@ -6,7 +6,7 @@ use DateTimeInterface;
 
 class MatchDataFoot
 {
-    static public function getAllMatches(): array
+    public static function getAllMatches(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query(
@@ -17,7 +17,7 @@ class MatchDataFoot
         return $statement->fetchAll();
     }
 
-    static public function insertMatch(
+    public static function insertMatch(
         int $teamScore,
         int $opponentScore,
         DateTimeInterface $matchDate,

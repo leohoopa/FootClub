@@ -7,7 +7,7 @@ use RuntimeException;
 
 class TeamData
 {
-    static public function getAllTeams(): array
+    public static function getAllTeams(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query('SELECT id, name FROM team ORDER BY name');
@@ -15,7 +15,7 @@ class TeamData
         return $statement->fetchAll();
     }
 
-    static public function getTeam(int $id): ?array
+    public static function getTeam(int $id): ?array
     {
         try {
             $pdo = Database::getInstance()->getConnection();
@@ -24,7 +24,6 @@ class TeamData
             );
             $statement->execute(['id' => $id]);
             $team = $statement->fetch();
-            
 
             return $team === false ? null : $team;
         } catch (PDOException $e) {
@@ -36,7 +35,7 @@ class TeamData
         }
     }
 
-    static public function insertTeam(string $name): int
+    public static function insertTeam(string $name): int
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->prepare('INSERT INTO team (name) VALUES (:name)');

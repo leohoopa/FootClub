@@ -4,7 +4,7 @@ namespace App\Model\db;
 
 class OpposingClubData
 {
-    static public function getAllOpposingClubs(): array
+    public static function getAllOpposingClubs(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query(
@@ -15,7 +15,7 @@ class OpposingClubData
         return $statement->fetchAll();
     }
 
-    static public function insertOpposingClub(
+    public static function insertOpposingClub(
         string $streetNumber,
         string $street,
         string $postalCode,
