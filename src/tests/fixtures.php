@@ -8,7 +8,7 @@ use App\Model\PlayerHasTeam;
 use App\Model\Staff;
 use App\Model\Team;
 
-require_once __DIR__ . '/../../autoloader.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 // 1. Création des joueurs 
 function createPlayers(): array

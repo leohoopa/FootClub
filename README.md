@@ -1,4 +1,8 @@
 # FootClub
+- Installation des dépendances PHP et génération de l'autoloader :
+    ```sh
+    composer install
+    ```
 -Convention de nommage : camelCase
 -Utilisation du framework Tailwwindcss + DaisyUi
     ->pour avoir le css:
