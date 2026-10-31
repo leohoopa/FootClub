@@ -3,7 +3,7 @@
 use App\Controller\PlayerController;
 use App\Model\db\PlayerData;
 
-require_once __DIR__ . '/../../autoloader.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 $playerId = isset($_GET['id']) && is_scalar($_GET['id']) && ctype_digit((string) $_GET['id'])
     ? (int) $_GET['id']

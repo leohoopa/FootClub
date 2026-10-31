@@ -17,11 +17,16 @@ class PlayerController
     {
         $validated = self::validate($input);
         if ($validated['errors'] !== []) {
-            return self::result($validated['values'], $validated['errors']);
+            return [
+                'values' => $validated['values'],
+                'errors' => $validated['errors'],
+                'success' => false,
+            ];
         }
 
+        $values = $validated['values'];
+
         try {
-            $values = $validated['values'];
             $player = new Player(
                 $values['firstname'],
                 $values['lastname'],
@@ -35,13 +40,18 @@ class PlayerController
                 PlayerData::updatePlayer($id, $player);
             }
 
-            return self::result($values, [], true);
+            return ['values' => $values, 'errors' => [], 'success' => true];
         } catch (RuntimeException $exception) {
             error_log($exception->getMessage());
-            $message = $id === null
-                ? "Une erreur est survenue pendant l'enregistrement du joueur."
-                : "Une erreur est survenue pendant la modification du joueur.";
-            return self::result($validated['values'], ['_form' => $message]);
+            return [
+                'values' => $values,
+                'errors' => [
+                    '_form' => $id === null
+                        ? "Une erreur est survenue pendant l'enregistrement du joueur."
+                        : "Une erreur est survenue pendant la modification du joueur.",
+                ],
+                'success' => false,
+            ];
         }
     }
 
@@ -96,13 +106,4 @@ class PlayerController
         return ['errors' => $errors, 'values' => $values];
     }
 
-    /**
-     * @param array<string, string> $values
-     * @param array<string, string> $errors
-     * @return array{errors: array<string, string>, values: array<string, string>, success: bool}
-     */
-    private static function result(array $values, array $errors, bool $success = false): array
-    {
-        return ['errors' => $errors, 'values' => $values, 'success' => $success];
-    }
 }
