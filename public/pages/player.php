@@ -25,6 +25,7 @@ $escape = static fn (string $value): string => htmlspecialchars($value, ENT_QUOT
 <main class="container mx-auto max-w-7xl px-4 py-10">
     <header class="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
+            <a href="../index.php" class="btn btn-ghost btn-sm mb-4">&larr; Accueil</a>
             <p class="text-sm font-semibold uppercase tracking-widest text-primary">FootClub</p>
             <h1 class="mt-1 text-3xl font-bold">Nos joueurs</h1>
             <p class="mt-2 text-base-content/70">Retrouvez tous les joueurs du club.</p>

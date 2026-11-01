@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Model\db\PlayerData;
+use App\Model\db\TeamData;
 use App\Model\Player;
+use App\enum\Roles;
 use DateTime;
 use RuntimeException;
 
-class PlayerController
+class PlayerController extends MemberController
 {
     /**
      * @param array<string, mixed> $input
@@ -15,44 +17,32 @@ class PlayerController
      */
     public static function process(array $input, ?int $id = null): array
     {
-        $validated = self::validate($input);
-        if ($validated['errors'] !== []) {
-            return [
-                'values' => $validated['values'],
-                'errors' => $validated['errors'],
-                'success' => false,
-            ];
-        }
+        return self::processMember(
+            $input,
+            $id,
+            static fn (array $input): array => self::validate($input),
+            static function (array $values, ?int $id): void {
+                $teamId = $values['team_id'] === '' ? null : (int) $values['team_id'];
+                $role = $values['role'] === '' ? null : $values['role'];
+                $player = new Player(
+                    $values['firstname'],
+                    $values['lastname'],
+                    $values['picture'],
+                    new DateTime($values['birthdate'])
+                );
 
-        $values = $validated['values'];
+                if ($teamId !== null && TeamData::getTeam($teamId) === null) {
+                    throw new RuntimeException("L'équipe sélectionnée est introuvable.");
+                }
 
-        try {
-            $player = new Player(
-                $values['firstname'],
-                $values['lastname'],
-                $values['picture'],
-                new DateTime($values['birthdate'])
-            );
-
-            if ($id === null) {
-                PlayerData::insertPlayer($player);
-            } else {
-                PlayerData::updatePlayer($id, $player);
-            }
-
-            return ['values' => $values, 'errors' => [], 'success' => true];
-        } catch (RuntimeException $exception) {
-            error_log($exception->getMessage());
-            return [
-                'values' => $values,
-                'errors' => [
-                    '_form' => $id === null
-                        ? "Une erreur est survenue pendant l'enregistrement du joueur."
-                        : "Une erreur est survenue pendant la modification du joueur.",
-                ],
-                'success' => false,
-            ];
-        }
+                if ($id === null) {
+                    PlayerData::insertPlayer($player, $teamId, $role);
+                } else {
+                    PlayerData::updatePlayer($id, $player, $teamId, $role);
+                }
+            },
+            'joueur'
+        );
     }
 
     /**
@@ -61,35 +51,12 @@ class PlayerController
      */
     private static function validate(array $input): array
     {
-        $errors = [];
-        $values = [];
-
-        foreach (['firstname', 'lastname', 'birthdate', 'picture'] as $field) {
-            $value = $input[$field] ?? '';
-            if (!is_string($value)) {
-                $errors[$field] = 'Cette valeur est invalide.';
-                $values[$field] = '';
-                continue;
-            }
-
-            $values[$field] = trim($value);
-            if (preg_match('//u', $values[$field]) !== 1) {
-                $errors[$field] = 'Le texte contient des caractères invalides.';
-                continue;
-            }
-
-            preg_match_all('/./us', $values[$field], $characters);
-            $length = count($characters[0]);
-            if ($length > 255) {
-                $errors[$field] = 'Cette valeur ne doit pas dépasser 255 caractères.';
-            }
-        }
-
-        foreach (['firstname' => 'prénom', 'lastname' => 'nom'] as $field => $label) {
-            if ($values[$field] === '') {
-                $errors[$field] = 'Le ' . $label . ' est obligatoire.';
-            }
-        }
+        $validated = self::validateCommonFields(
+            $input,
+            ['firstname', 'lastname', 'picture', 'birthdate', 'team_id', 'role']
+        );
+        $errors = $validated['errors'];
+        $values = $validated['values'];
 
         $birthdate = DateTime::createFromFormat('!Y-m-d', $values['birthdate']);
         $dateErrors = DateTime::getLastErrors();
@@ -101,6 +68,27 @@ class PlayerController
             $errors['birthdate'] = 'Saisissez une date de naissance valide.';
         } elseif ($birthdate > new DateTime('today')) {
             $errors['birthdate'] = 'La date de naissance ne peut pas être dans le futur.';
+        }
+
+        if ($values['team_id'] !== '') {
+            $teamId = filter_var(
+                $values['team_id'],
+                FILTER_VALIDATE_INT,
+                ['options' => ['min_range' => 1, 'max_range' => 2147483647]]
+            );
+            if ($teamId === false) {
+                $errors['team_id'] = 'Sélectionnez une équipe valide.';
+            }
+
+            $availableRoles = array_map(
+                static fn (Roles $role): string => $role->value,
+                Roles::cases()
+            );
+            if (!in_array($values['role'], $availableRoles, true)) {
+                $errors['role'] = 'Sélectionnez un poste valide.';
+            }
+        } else {
+            $values['role'] = '';
         }
 
         return ['errors' => $errors, 'values' => $values];

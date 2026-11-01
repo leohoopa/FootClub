@@ -43,8 +43,8 @@ $escape = static fn (string $value): string => htmlspecialchars($value, ENT_QUOT
 </head>
 <body>
 <main class="container mx-auto max-w-3xl px-4 py-10">
-    <div class="mb-6">
-        <a href="staff.php" class="link link-primary text-sm">&larr; Retour à la liste</a>
+    <div class="mb-5">
+        <a href="staff.php" class="btn btn-ghost btn-sm">&larr; Retour à la liste</a>
     </div>
 
     <?php if ($staff === null): ?>
@@ -116,11 +116,12 @@ $escape = static fn (string $value): string => htmlspecialchars($value, ENT_QUOT
                         </label>
 
                         <label class="form-control w-full">
-                            <span class="label"><span class="label-text font-medium">Photo (URL)</span></span>
+                            <span class="label"><span class="label-text font-medium">URL de la photo</span></span>
                             <input
                                 type="text"
                                 name="picture"
                                 class="input input-bordered w-full"
+                                placeholder="Ex. https://exemple.com/photo-staff.jpg"
                                 maxlength="255"
                                 value="<?= $escape($formValues['picture']) ?>"
                                 aria-invalid="<?= isset($errors['picture']) ? 'true' : 'false' ?>"
@@ -131,7 +132,7 @@ $escape = static fn (string $value): string => htmlspecialchars($value, ENT_QUOT
                         </label>
 
                     <div class="flex flex-wrap justify-end gap-3">
-                        <a href="staff.php" class="btn btn-ghost">Annuler</a>
+                        <a href="staff.php" class="btn btn-ghost btn-sm">Annuler</a>
                         <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
                     </div>
                 </form>

@@ -52,7 +52,7 @@ class PlayerData
         }
     }
 
-    public static function insertPlayer(Player $player): int
+    public static function insertPlayer(Player $player, ?int $teamId = null, ?string $role = null): int
     {
         $pdo = Database::getInstance()->getConnection();
         $pdo->beginTransaction();
@@ -77,6 +77,10 @@ class PlayerData
                 'birthdate' => $player->getBirthdate()->format('Y-m-d'),
             ]);
 
+            if ($teamId !== null && $role !== null) {
+                PlayerHasTeamData::insertPlayerHasTeam($playerId, $teamId, $role);
+            }
+
             $pdo->commit();
             $player->setId($playerId);
             return $playerId;
@@ -88,7 +92,12 @@ class PlayerData
         }
     }
 
-    public static function updatePlayer(int $id, Player $player): void
+    public static function updatePlayer(
+        int $id,
+        Player $player,
+        ?int $teamId = null,
+        ?string $role = null
+    ): void
     {
         $pdo = Database::getInstance()->getConnection();
         $pdo->beginTransaction();
@@ -120,6 +129,12 @@ class PlayerData
                 'birthdate' => $player->getBirthdate()->format('Y-m-d'),
                 'id' => $id,
             ]);
+
+            $statement = $pdo->prepare('DELETE FROM player_has_team WHERE player_id = :player_id');
+            $statement->execute(['player_id' => $id]);
+            if ($teamId !== null && $role !== null) {
+                PlayerHasTeamData::insertPlayerHasTeam($id, $teamId, $role);
+            }
 
             $pdo->commit();
         } catch (Throwable $exception) {
