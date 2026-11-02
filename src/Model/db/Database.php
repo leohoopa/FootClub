@@ -5,8 +5,6 @@ namespace App\Model\db;
 use PDO;
 use PDOException;
 
-require_once __DIR__ . '/../../../.env';
-
 class Database
 {
     private static ?Database $instance = null;
@@ -45,5 +43,7 @@ class Database
         return $this->pdo;
     }
 
-    private function __clone() {}
+    private function __clone()
+    {
+    }
 }

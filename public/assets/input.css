@@ -2,5 +2,6 @@
 
 @source not "./tailwindcss.exe";
 @source not "./daisyui{,*}.mjs";
+@source "../pages";
 
 @plugin "./daisyui.mjs";

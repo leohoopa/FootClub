@@ -2,33 +2,41 @@
 
 namespace App\Model;
 
-class PlayerHasTeam {
+class PlayerHasTeam
+{
     private string $role;
     private Player $player;
     private Team $team;
 
-    public function __construct(string $role,Player $player, Team $team) {
+    public function __construct(string $role, Player $player, Team $team)
+    {
         $this->role = $role;
         $this->player = $player;
         $this->team = $team;
     }
 
-    public function getRole(): string {
+    public function getRole(): string
+    {
         return $this->role;
     }
-    public function getPlayer(): Player {
+    public function getPlayer(): Player
+    {
         return $this->player;
     }
-    public function getTeam(): Team {
+    public function getTeam(): Team
+    {
         return $this->team;
     }
-    public function setRole(string $role): void {
+    public function setRole(string $role): void
+    {
         $this->role = $role;
     }
-    public function setPlayer(Player $player): void {
+    public function setPlayer(Player $player): void
+    {
         $this->player = $player;
     }
-    public function setTeam(Team $team): void {
+    public function setTeam(Team $team): void
+    {
         $this->team = $team;
     }
 }

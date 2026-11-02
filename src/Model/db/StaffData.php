@@ -2,13 +2,15 @@
 
 namespace App\Model\db;
 
+use App\Model\Staff;
 use PDOException;
 use RuntimeException;
 use Throwable;
 
 class StaffData
 {
-    static public function getAllStaff(): array
+    /** @return Staff[] */
+    public static function getAllStaff(): array
     {
         $pdo = Database::getInstance()->getConnection();
         $statement = $pdo->query(
@@ -18,10 +20,13 @@ class StaffData
             . 'ORDER BY member.lastname, member.firstname'
         );
 
-        return $statement->fetchAll();
+        return array_map(
+            static fn (array $row): Staff => self::hydrateStaff($row),
+            $statement->fetchAll()
+        );
     }
 
-    static public function getStaff(int $id): ?array
+    public static function getStaff(int $id): ?Staff
     {
         try {
             $pdo = Database::getInstance()->getConnection();
@@ -34,19 +39,19 @@ class StaffData
             );
 
             $statement->execute(['id' => $id]);
-            $staff = $statement->fetch();
+            $row = $statement->fetch();
 
-            return $staff === false ? null : $staff;
+            return $row === false ? null : self::hydrateStaff($row);
         } catch (PDOException $e) {
             throw new RuntimeException(
-                "Erreur lors de la récupération du staff.",
+                'Erreur lors de la récupération du staff.',
                 0,
                 $e
             );
         }
     }
 
-    static public function insertStaff(string $firstname, string $lastname, string $picture, string $role): int
+    public static function insertStaff(Staff $staff): int
     {
         $pdo = Database::getInstance()->getConnection();
         $pdo->beginTransaction();
@@ -57,9 +62,9 @@ class StaffData
                 . 'VALUES (:firstname, :lastname, :picture)'
             );
             $statement->execute([
-                'firstname' => $firstname,
-                'lastname' => $lastname,
-                'picture' => $picture,
+                'firstname' => $staff->getFirstname(),
+                'lastname' => $staff->getLastname(),
+                'picture' => $staff->getPicture(),
             ]);
             $staffId = (int) $pdo->lastInsertId();
 
@@ -68,14 +73,84 @@ class StaffData
             );
             $statement->execute([
                 'member_id' => $staffId,
-                'role' => $role,
+                'role' => $staff->getRole(),
             ]);
 
             $pdo->commit();
             return $staffId;
         } catch (Throwable $exception) {
-            $pdo->rollBack();
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            if ($exception instanceof PDOException) {
+                throw new RuntimeException(
+                    "Erreur lors de l'enregistrement du membre du staff.",
+                    0,
+                    $exception
+                );
+            }
             throw $exception;
         }
+    }
+
+    public static function updateStaff(int $id, Staff $staff): void
+    {
+        $pdo = Database::getInstance()->getConnection();
+        $pdo->beginTransaction();
+
+        try {
+            $statement = $pdo->prepare(
+                'SELECT member_id FROM staff WHERE member_id = :id FOR UPDATE'
+            );
+            $statement->execute(['id' => $id]);
+            if ($statement->fetchColumn() === false) {
+                throw new RuntimeException('Le membre du staff à modifier est introuvable.');
+            }
+
+            $statement = $pdo->prepare(
+                'UPDATE member SET firstname = :firstname, lastname = :lastname, picture = :picture '
+                . 'WHERE id = :id'
+            );
+            $statement->execute([
+                'firstname' => $staff->getFirstname(),
+                'lastname' => $staff->getLastname(),
+                'picture' => $staff->getPicture(),
+                'id' => $id,
+            ]);
+
+            $statement = $pdo->prepare(
+                'UPDATE staff SET role = :role WHERE member_id = :id'
+            );
+            $statement->execute([
+                'role' => $staff->getRole(),
+                'id' => $id,
+            ]);
+
+            $pdo->commit();
+        } catch (Throwable $exception) {
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            if ($exception instanceof PDOException) {
+                throw new RuntimeException(
+                    'Erreur lors de la modification du membre du staff.',
+                    0,
+                    $exception
+                );
+            }
+            throw $exception;
+        }
+    }
+
+    /** @param array<string, mixed> $row */
+    private static function hydrateStaff(array $row): Staff
+    {
+        return new Staff(
+            (string) $row['firstname'],
+            (string) $row['lastname'],
+            (string) $row['picture'],
+            (string) $row['role'],
+            (int) $row['id']
+        );
     }
 }

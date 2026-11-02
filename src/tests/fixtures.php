@@ -8,7 +8,7 @@ use App\Model\PlayerHasTeam;
 use App\Model\Staff;
 use App\Model\Team;
 
-require_once __DIR__ . '/../../autoloader.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 // 1. Création des joueurs 
 function createPlayers(): array
@@ -66,16 +66,16 @@ function createPlayerHasTeams(array $players, array $teams): array
     $roles = ['Attaquant', 'Milieu', 'Défenseur', 'Gardien'];
 
     if ($roles !== [Roles::ATTACK->value, Roles::MIDFIELDER->value, Roles::DEFENDER->value, Roles::GOALKEEPER->value]) {
-        exit("Erreur : Les rôles ne sont pas correctement définis.");
+        exit('Erreur : Les rôles ne sont pas correctement définis.');
     } else {        
         $links = [];
 
         foreach ($players as $index => $player) {
             $team = $teams[$index % count($teams)];
             $role = $roles[$index % count($roles)];
-        
-        $links[] = new PlayerHasTeam($role, $player, $team);
-    }
+
+            $links[] = new PlayerHasTeam($role, $player, $team);
+        }
 
         return $links;
     }
@@ -120,10 +120,10 @@ $staffMembers = createStaffMembers();
 $playerHasTeams = createPlayerHasTeams($players, $teams);
 $matches = createMatches($teams, $opposingClubs);
 
-echo "BILAN DES FIXTURES" . PHP_EOL;
-echo "Joueurs créés : " . count($players) . PHP_EOL;
-echo "Équipes créées : " . count($teams) . PHP_EOL;
-echo "Clubs adverses créés : " . count($opposingClubs) . PHP_EOL;
-echo "Membres du staff créés : " . count($staffMembers) . PHP_EOL;
-echo "Liaisons Joueur/Équipe créées : " . count($playerHasTeams) . PHP_EOL;
-echo "Matchs enregistrés : " . count($matches) . PHP_EOL;
+echo 'BILAN DES FIXTURES' . PHP_EOL;
+echo 'Joueurs créés : ' . count($players) . PHP_EOL;
+echo 'Équipes créées : ' . count($teams) . PHP_EOL;
+echo 'Clubs adverses créés : ' . count($opposingClubs) . PHP_EOL;
+echo 'Membres du staff créés : ' . count($staffMembers) . PHP_EOL;
+echo 'Liaisons Joueur/Équipe créées : ' . count($playerHasTeams) . PHP_EOL;
+echo 'Matchs enregistrés : ' . count($matches) . PHP_EOL;
