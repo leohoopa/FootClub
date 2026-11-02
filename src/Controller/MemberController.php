@@ -73,7 +73,7 @@ abstract class MemberController
                 continue;
             }
 
-            preg_match_all('/./us', $values[$field], $characters);
+            preg_match_all('/./us', $values[$field], $characters);// sert à faire du carter "é" un seul caractère et nom un nombre unicode comme 675 qui prendrait plus de caractères
             if (count($characters[0]) > 255) {
                 $errors[$field] = 'Cette valeur ne doit pas dépasser 255 caractères.';
             }
