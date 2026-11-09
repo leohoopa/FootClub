@@ -10,15 +10,26 @@
             # For Windows
             tailwindcss.exe -i input.css -o output.css --watch
 -Arborescence:
-    root/
-    ├── public/
-    │   ├── index.html
-    │   ├── pages/
-    │   ├── style/
-    │   └── assets/
-    ├── back/
-    |   ├── class/
-    ├── .env
-    ├── .env.example
-    ├── .gitignore
-    └── README.md
+FootClub/
+├── public/                         # Fichiers accessibles par le navigateur
+│   ├── assets/                     # CSS et fichiers Tailwind/DaisyUI
+│   │   ├── daisyui-theme.mjs
+│   │   ├── daisyui.mjs
+│   │   ├── input.css
+│   │   └── output.css
+│   ├── pages/                      # Pages de l'application
+│   └── index.php                   # Page d'accueil
+├── src/
+│   ├── Controller/                 # Validation et traitement des formulaires
+│   ├── Enum/                       # Énumérations
+│   ├── Model/                      # Objets métier
+│   │   └── db/                     # Connexion et accès aux données
+│   └── Tests/                      # Données de test
+├── vendor/                         # Dépendances installées par Composer
+├── .env                            # Configuration locale de la base (non versionnée)
+├── .env.example                    # Exemple de configuration
+├── .gitignore
+├── composer.json                   # Dépendances et autoload PHP
+├── composer.lock                   # Versions exactes des dépendances
+├── footclub.sql                    # Création de la base et des tables
+└── README.md
